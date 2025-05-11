@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionnaire - FlashPitch</title>
+    <link href="/styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-50" x-data="formValidation">
+    <div class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="bg-white border-b border-gray-100">
+            <nav class="container mx-auto px-4 py-4">
+                <a href="/" class="font-display text-2xl font-bold text-primary-600">FlashPitch</a>
+            </nav>
+        </header>
+
+        <!-- Main content -->
+        <main class="flex-1 container mx-auto px-4 py-12">
+            <div class="max-w-2xl mx-auto">
+                <!-- Progress bar -->
+                <div class="mb-8">
+                    <div class="flex justify-between text-sm text-gray-600 mb-2">
+                        <span>Question <span x-text="currentStep"></span>/<span x-text="maxSteps"></span></span>
+                        <span x-text="Math.round((currentStep/maxSteps) * 100) + '%'"></span>
+                    </div>
+                    <div class="h-2 bg-gray-200 rounded-full">
+                        <div class="h-2 bg-primary-600 rounded-full transition-all duration-300"
+                             :style="'width: ' + (currentStep/maxSteps * 100) + '%'"></div>
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <form @submit.prevent="submitForm" class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                    <!-- Step 1 -->
+                    <div x-show="currentStep === 1">
+                        <h2 class="text-xl font-bold mb-4">Nom de votre entreprise</h2>
+                        <input type="text" x-model="formData.company_name" class="input-field" 
+                               placeholder="Ex: TechVision SAS">
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div x-show="currentStep === 2">
+                        <h2 class="text-xl font-bold mb-4">Secteur d'activité</h2>
+                        <input type="text" x-model="formData.industry" class="input-field" 
+                               placeholder="Ex: Technologies de l'information">
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div x-show="currentStep === 3">
+                        <h2 class="text-xl font-bold mb-4">Marché cible</h2>
+                        <textarea x-model="formData.target_market" class="input-field" rows="3"
+                                  placeholder="Ex: PME du secteur industriel en France"></textarea>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div x-show="currentStep === 4">
+                        <h2 class="text-xl font-bold mb-4">Proposition de valeur unique</h2>
+                        <textarea x-model="formData.unique_value" class="input-field" rows="3"
+                                  placeholder="Ex: Solution IA qui réduit de 50% les coûts de maintenance"></textarea>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div x-show="currentStep === 5">
+                        <h2 class="text-xl font-bold mb-4">Problème résolu</h2>
+                        <textarea x-model="formData.problem_solved" class="input-field" rows="3"
+                                  placeholder="Ex: Les entreprises perdent du temps et de l'argent..."></textarea>
+                    </div>
+
+                    <!-- Step 6 -->
+                    <div x-show="currentStep === 6">
+                        <h2 class="text-xl font-bold mb-4">Votre solution</h2>
+                        <textarea x-model="formData.solution" class="input-field" rows="3"
+                                  placeholder="Ex: Notre plateforme utilise l'IA pour..."></textarea>
+                    </div>
+
+                    <!-- Step 7 -->
+                    <div x-show="currentStep === 7">
+                        <h2 class="text-xl font-bold mb-4">Modèle économique</h2>
+                        <textarea x-model="formData.business_model" class="input-field" rows="3"
+                                  placeholder="Ex: Abonnement mensuel basé sur le nombre d'utilisateurs"></textarea>
+                    </div>
+
+                    <!-- Step 8 -->
+                    <div x-show="currentStep === 8">
+                        <h2 class="text-xl font-bold mb-4">Concurrence</h2>
+                        <textarea x-model="formData.competition" class="input-field" rows="3"
+                                  placeholder="Ex: Nos principaux concurrents sont..."></textarea>
+                    </div>
+
+                    <!-- Step 9 -->
+                    <div x-show="currentStep === 9">
+                        <h2 class="text-xl font-bold mb-4">Équipe</h2>
+                        <textarea x-model="formData.team" class="input-field" rows="3"
+                                  placeholder="Ex: Notre équipe est composée de..."></textarea>
+                    </div>
+
+                    <!-- Step 10 -->
+                    <div x-show="currentStep === 10">
+                        <h2 class="text-xl font-bold mb-4">Traction actuelle</h2>
+                        <textarea x-model="formData.traction" class="input-field" rows="3"
+                                  placeholder="Ex: 100 clients actifs, croissance de 20% par mois"></textarea>
+                    </div>
+
+                    <!-- Step 11 -->
+                    <div x-show="currentStep === 11">
+                        <h2 class="text-xl font-bold mb-4">Données financières</h2>
+                        <textarea x-model="formData.financials" class="input-field" rows="3"
+                                  placeholder="Ex: CA 2023: 500k€, Prévisionnel 2024: 1.2M€"></textarea>
+                    </div>
+
+                    <!-- Step 12 -->
+                    <div x-show="currentStep === 12">
+                        <h2 class="text-xl font-bold mb-4">Montant recherché</h2>
+                        <textarea x-model="formData.investment_ask" class="input-field" rows="3"
+                                  placeholder="Ex: Levée de fonds de 2M€ pour..."></textarea>
+                    </div>
+
+                    <!-- Navigation buttons -->
+                    <div class="flex justify-between mt-8">
+                        <button type="button" 
+                                @click="previousStep"
+                                x-show="currentStep > 1"
+                                class="btn-secondary">
+                            Précédent
+                        </button>
+                        <button type="button" 
+                                @click="nextStep"
+                                x-show="currentStep < maxSteps"
+                                :class="{'opacity-50 cursor-not-allowed': !validateCurrentStep()}"
+                                class="btn-primary ml-auto">
+                            Suivant
+                        </button>
+                        <button type="submit"
+                                x-show="currentStep === maxSteps"
+                                :class="{'opacity-50 cursor-not-allowed': !validateCurrentStep()}"
+                                class="btn-primary ml-auto">
+                            <span x-show="!loading">Générer mon pitch deck</span>
+                            <span x-show="loading">Génération en cours...</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-white border-t border-gray-100">
+            <div class="container mx-auto px-4 py-8">
+                <p class="text-center text-sm text-gray-600">
+                    © 2024 FlashPitch. Tous droits réservés.
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/js/form-validation.js"></script>
+</body>
+</html>
