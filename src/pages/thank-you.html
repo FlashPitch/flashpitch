@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Génération en cours - FlashPitch</title>
+    <link href="/styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-50" x-data="thankYou">
+    <div class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="bg-white border-b border-gray-100">
+            <nav class="container mx-auto px-4 py-4">
+                <a href="/" class="font-display text-2xl font-bold text-primary-600">FlashPitch</a>
+            </nav>
+        </header>
+
+        <!-- Main content -->
+        <main class="flex-1 container mx-auto px-4 py-12">
+            <div class="max-w-md mx-auto text-center">
+                <!-- Loading state -->
+                <template x-if="loading">
+                    <div>
+                        <div class="w-16 h-16 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mx-auto mb-8"></div>
+                        <h1 class="font-display text-2xl font-bold mb-4">
+                            Génération de votre pitch deck
+                        </h1>
+                        <p class="text-gray-600">
+                            Veuillez patienter quelques instants pendant que nous créons votre présentation...
+                        </p>
+                    </div>
+                </template>
+
+                <!-- Error state -->
+                <template x-if="error">
+                    <div>
+                        <div class="w-16 h-16 mx-auto mb-8 text-red-500">
+                            <!-- Error icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h1 class="font-display text-2xl font-bold mb-4 text-red-500">
+                            Une erreur est survenue
+                        </h1>
+                        <p class="text-gray-600 mb-8" x-text="error"></p>
+                        <button @click="retry" class="btn-primary">
+                            Réessayer
+                        </button>
+                    </div>
+                </template>
+
+                <!-- Success state -->
+                <template x-if="!loading && !error && slides_url && pdf_url">
+                    <div>
+                        <div class="w-16 h-16 mx-auto mb-8 text-green-500">
+                            <!-- Success icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <h1 class="font-display text-2xl font-bold mb-4">
+                            Votre pitch deck est prêt !
+                        </h1>
+                        <p class="text-gray-600 mb-8">
+                            Téléchargez votre présentation dans le format de votre choix
+                        </p>
+                        <div class="space-y-4">
+                            <a :href="slides_url" target="_blank" class="btn-primary w-full block">
+                                Ouvrir dans Google Slides
+                            </a>
+                            <a :href="pdf_url" target="_blank" class="btn-secondary w-full block">
+                                Télécharger en PDF
+                            </a>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-white border-t border-gray-100">
+            <div class="container mx-auto px-4 py-8">
+                <p class="text-center text-sm text-gray-600">
+                    © 2024 FlashPitch. Tous droits réservés.
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/js/thank-you.js"></script>
+</body>
+</html>
