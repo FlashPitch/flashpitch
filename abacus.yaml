@@ -1,0 +1,25 @@
+version: 1.0
+build:
+  command: npm install && npm run build
+  publish: dist
+
+functions:
+  - functions/*.js
+
+routes:
+  - path: /api/*
+    function: $1
+  - path: /checkout
+    rewrite: /checkout.html
+  - path: /form
+    rewrite: /form.html
+  - path: /thank-you
+    rewrite: /thank-you.html
+  - path: /*
+    rewrite: /index.html
+
+environment:
+  - STRIPE_SECRET_KEY
+  - STRIPE_PUBLISHABLE_KEY
+  - STRIPE_PRICE_ID
+  - ZAPIER_WEBHOOK_URL
